@@ -9,7 +9,7 @@ import traceback
 import proxxy
 
 
-def create_emails(urla, amount):
+def create_accounts(urla, amount):
     emails = []
     url = urla + 'https://' + urla + '-en.ikariam.gameforge.com/index.php?action=newPlayer&function=createAvatar'
     for i in range(0, amount):
