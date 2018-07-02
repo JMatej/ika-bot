@@ -30,7 +30,6 @@ class BotAPI:
                 'password': self.pwd,
             },
         )
-        print(r)
         content = r.content.decode('utf-8')
         html = BeautifulSoup(content, 'html.parser')
         self.last_token = html.select_one('#js_ChangeCityActionRequest').attrs['value']
@@ -75,6 +74,7 @@ class BotAPI:
         scientists = int(ht.select_one('.scientists span').text.replace(",", ""))
         priests = int(ht.select_one('.priests span').text.replace(",", ""))
         citizens = int(ht.select_one('.citizens span').text.replace(",", ""))
+        people = woodworkers + specialworkers + scientists + priests + citizens
 
         wood_production = int(ht.select_one('.WoodProduction').text.replace(",", ""))
         luxury_production = int(ht.select_one('.LuxuryProduction').text.replace(",", ""))
@@ -83,12 +83,14 @@ class BotAPI:
         priests_production = int(ht.select_one('.PriestsProduction').text.replace(",", ""))
         citizens_production = int(ht.select_one('.CitizensProduction').text.replace(",", ""))
         luxury = ht.select("div[class^='icon_']")[1].attrs['class'][0][5:]
+        net_gold = int(ht.select_one("li[class^='incomegold_'] span").text.replace(",", ""))
         return {
             'woodworkers': woodworkers,
             'specialworkers': specialworkers,
             'scientists': scientists,
             'priests': priests,
             'citizens': citizens,
+            'people': people,
             'wood_production': wood_production,
             'luxury_production': luxury_production,
             'scientists_cost': scientists_cost,
@@ -96,6 +98,7 @@ class BotAPI:
             'priests_production': priests_production,
             'citizens_production': citizens_production,
             'luxury': luxury,
+            'net_gold': net_gold,
         }
 
     def get_island_info(self):
@@ -169,6 +172,25 @@ class BotAPI:
                 'currentIslandId': self.island_id,
                 'rw': number,
                 'tw': number,
+                'actionRequest': self.last_token,
+                'ajax': 1,
+            },
+        )
+        return True
+
+    def set_scientists(self, number):
+        sess = self.get_logged()
+        typ = 'academy'
+        r = sess.post(
+            self.url + "/index.php",
+            data={
+                'action': 'IslandScreen',
+                'function': 'workerPlan',
+                'islandId': self.island_id,
+                'screen': typ,
+                'cityId': self.city_id,
+                'currentIslandId': self.island_id,
+                's': number,
                 'actionRequest': self.last_token,
                 'ajax': 1,
             },
