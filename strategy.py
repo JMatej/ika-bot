@@ -46,6 +46,7 @@ class SStrategy:
             bot.upgrade(b[0], b[1])  # position, level
         bot.buy_merchant_ship(1)
         research_areas = ['seafaring', 'economy', 'science', 'military']
+        random.shuffle(research_areas)
         for area in research_areas:
             bot.research(area)
         i = 0
