@@ -2,6 +2,7 @@ import re
 
 import requests
 from bs4 import BeautifulSoup
+from proxxy import get_proxy
 
 url = "https://s35-en.ikariam.gameforge.com"
 world = "s35-en.ikariam.gameforge.com"
@@ -21,6 +22,7 @@ def get_logged(world, email, pwd):
             'name': email,
             'password': pwd,
         },
+        proxies={"http": get_proxy(), "https": get_proxy()}
     )
     print(r)
     content = r.content.decode('utf-8')

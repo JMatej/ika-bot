@@ -1,7 +1,6 @@
 import requests
 from lxml.html import fromstring
-from itertools import cycle
-import traceback
+import random
 
 def get_proxies():
     url = 'https://free-proxy-list.net/'
@@ -14,3 +13,8 @@ def get_proxies():
             proxy = ":".join([i.xpath('.//td[1]/text()')[0], i.xpath('.//td[2]/text()')[0]])
             proxies.add(proxy)
     return proxies
+
+
+def get_proxy():
+    proxies = get_proxies()
+    return random.choice(list(proxies))
