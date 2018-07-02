@@ -64,8 +64,9 @@ class SStrategy:
 
     def run(self):
         while 1:
-            for email in users:
+            for idx, email in enumerate(users):
                 start = time.time()
+                print('account:', idx, email)
                 try:
                     self.run_user(email)
                 except Exception as e:
