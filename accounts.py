@@ -33,16 +33,17 @@ def create_accounts(urla, amount):
         except:
             print("Skipping. Connnection error")
 
-def invite_friends(fh, playerId):
+def invite_friends(fh, player_id):
     url = 'https://s35-en.ikariam.gameforge.com/index.php'
     proxies = proxxy.get_proxies()
-    emails = create_emails(10)
+    emails = create_emails(20)
     proxy_pool = cycle(proxies)
-    for i in range(0, 10):
+    for i in range(0, 20):
+        print(emails[i]['email'], emails[i]['name'])
         proxy = next(proxy_pool)
         payload = {
             'action': 'newPlayer',
-            'friendId': playerId, #'29969',
+            'friendId': player_id, #'29969',
             'fh': fh, #'4f158c4f36d1dfbf022ee3b08ec69d82',
             'function': 'createAvatar',
             'email': emails[i]['email'],
@@ -52,6 +53,7 @@ def invite_friends(fh, playerId):
         }
         try:
             response = requests.post(url, data=payload, proxies={"http": proxy, "https": proxy})
-            print(emails[i]['emails'], emails[i]['name'])
         except:
             print("Skipping. Connnection error")
+
+invite_friends('4f158c4f36d1dfbf022ee3b08ec69d82', '29969')
