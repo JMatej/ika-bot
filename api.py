@@ -2,12 +2,14 @@ import re
 
 import requests
 from bs4 import BeautifulSoup
+from proxxy import get_proxy
 
 url = "https://s35-en.ikariam.gameforge.com"
 world = "s35-en.ikariam.gameforge.com"
 email = "bottest0@centrum.sk"
 pwd = "matejko123"
 city_id = 42663
+island_id = 589
 last_token = ""
 
 
@@ -20,6 +22,7 @@ def get_logged(world, email, pwd):
             'name': email,
             'password': pwd,
         },
+        proxies={"http": get_proxy(), "https": get_proxy()}
     )
     print(r)
     content = r.content.decode('utf-8')
@@ -34,13 +37,13 @@ def get_city_info():
     r = sess.get(url)
     content = r.content.decode('utf-8')
     html = BeautifulSoup(content, 'html.parser')
-    gold = int(html.select_one('.gold a').text)
-    wood = int(html.select_one('.wood span').text)
-    wine = int(html.select_one('.wine span').text)
-    marble = int(html.select_one('.marble span').text)
-    glass = int(html.select_one('.glass span').text)
-    sulfur = int(html.select_one('.sulfur span').text)
-    population = int(html.select_one('.population span').text)
+    gold = int(html.select_one('.gold a').text.replace(",", ""))
+    wood = int(html.select_one('.wood span').text.replace(",", ""))
+    wine = int(html.select_one('.wine span').text.replace(",", ""))
+    marble = int(html.select_one('.marble span').text.replace(",", ""))
+    glass = int(html.select_one('.glass span').text.replace(",", ""))
+    sulfur = int(html.select_one('.sulfur span').text.replace(",", ""))
+    population = int(html.select_one('.population span').text.replace(",", ""))
     resources = {
         'wood': wood, 'wine': wine, 'marble': marble, 'glass': glass, 'sulfur': sulfur, 'population': population,
     }
@@ -68,8 +71,8 @@ def get_island_info(city_id):
     r = sess.get(url + "/?view=island")
     content = r.content.decode('utf-8')
     html = BeautifulSoup(content, 'html.parser')
-    # print(html)
-    return None
+    island_id = int(html.select_one('input[name="currentIslandId"]').attrs['value'])
+    return {'island_id': island_id}
 
 
 def get_state():
@@ -98,8 +101,29 @@ def build(city_id, position, building):
     return True
 
 
-print(get_state())
+def set_workers(number):
+    sess = get_logged(world, email, pwd)
+    r = sess.post(
+        url + "/index.php",
+        data={
+            'action': 'IslandScreen',
+            'function': 'workerPlan',
+            'type': 'resource',
+            'islandId': island_id,
+            'screen': 'resource',
+            'cityId': city_id,
+            'currentIslandId': island_id,
+            'rw': number,
+            'actionRequest': last_token,
+            'ajax': 1,
+        },
+    )
+    return True
+
+
+# print(get_state())
 # print(build(city_id=42663, position=12, building=4))
+print(set_workers(15))
 
 # sess = get_logged(world, email, pwd)
 # r = sess.get(url)
