@@ -138,6 +138,25 @@ def build(city_id, position, building):
     return True
 
 
+def upgrade(city_id, position, level):
+    sess = get_logged(world, email, pwd)
+    r = sess.post(
+        url + "/index.php",
+        data={
+            'action': 'CityScreen',
+            'function': 'upgradeBuilding',
+            'cityId': city_id,
+            'currentCityId': city_id,
+            'position': position,
+            'level': level,
+            # 'building': building,
+            'actionRequest': last_token,
+            'ajax': 1,
+        },
+    )
+    return True
+
+
 def set_workers(number, wood=True):
     sess = get_logged(world, email, pwd)
     typ = 'resource'
@@ -180,10 +199,35 @@ def buy_merchant_ship(position):
     )
     return True
 
+
+def transport(destination_city_id, wood, wine, marble, glass, sulfur):
+    sess = get_logged(world, email, pwd)
+    r = sess.post(
+        url + "/index.php",
+        data={
+            'action': 'transportOperations',
+            'function': 'loadTransportersWithFreight',
+            'cargo_resource': wood,
+            'cargo_tradegood1': wine,
+            'cargo_tradegood2': marble,
+            'cargo_tradegood3': glass,
+            'cargo_tradegood4': sulfur,
+            'islandId': island_id,
+            'destinationCityId': destination_city_id,
+            'cityId': city_id,
+            'currentIslandId': island_id,
+            'actionRequest': last_token,
+        },
+    )
+    return True
+
+
 # print(get_state())
 # print(build(city_id=42663, position=12, building=4))
 # print(set_workers(1))
 # print(buy_merchant_ship(1))
+# print(upgrade(42663, 1, 1))
+# print(transport(42139, 1, 2, 3, 4, 5))
 
 # sess = get_logged(world, email, pwd)
 # r = sess.get(url)
