@@ -1,12 +1,9 @@
-import random
-import string
 from random import choice
 from string import ascii_lowercase
 import requests
-from lxml.html import fromstring
 from itertools import cycle
-import traceback
 import proxxy
+
 
 def create_emails(amount):
     emails = []
@@ -17,6 +14,7 @@ def create_emails(amount):
         email = part + mail
         emails.append({'email': email, 'name': part})
     return emails
+
 
 def create_accounts(urla, amount):
     emails = create_emails(amount)
@@ -29,9 +27,10 @@ def create_accounts(urla, amount):
                    'uni_url': urla + '-en.ikariam.gameforge.com'}
         try:
             response = requests.post(url, data=payload, proxies={"http": proxy, "https": proxy})
-            print (emails[i]['email'], emails[i]['name'])
+            print(emails[i]['email'], emails[i]['name'])
         except:
             print("Skipping. Connnection error")
+
 
 def invite_friends(fh, player_id):
     url = 'https://s35-en.ikariam.gameforge.com/index.php'
@@ -43,8 +42,8 @@ def invite_friends(fh, player_id):
         proxy = next(proxy_pool)
         payload = {
             'action': 'newPlayer',
-            'friendId': player_id, #'29969',
-            'fh': fh, #'4f158c4f36d1dfbf022ee3b08ec69d82',
+            'friendId': player_id,  # '29969',
+            'fh': fh,  # '4f158c4f36d1dfbf022ee3b08ec69d82',
             'function': 'createAvatar',
             'email': emails[i]['email'],
             'name': emails[i]['name'],
@@ -55,5 +54,6 @@ def invite_friends(fh, player_id):
             response = requests.post(url, data=payload, proxies={"http": proxy, "https": proxy})
         except:
             print("Skipping. Connnection error")
+
 
 invite_friends('4f158c4f36d1dfbf022ee3b08ec69d82', '29969')

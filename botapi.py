@@ -16,6 +16,7 @@ class BotAPI:
         self.city_id = 0
         self.island_id = 0
         self.last_token = ""
+        self.state = {}
 
     def get_logged(self):
         s = requests.Session()
@@ -110,11 +111,12 @@ class BotAPI:
         self.city_id = city_info['id']
         town_hall_info = self.get_town_hall()
         island_info = self.get_island_info()
-        return {
+        self.state = {
             'city': city_info,
             'island': island_info,
             'town_hall': town_hall_info,
         }
+        return self.state
 
     def build(self, position, building):
         sess = self.get_logged()
@@ -212,3 +214,17 @@ class BotAPI:
         )
         return True
 
+    # seafaring, economy, science, military
+    def research(self, typ):
+        sess = self.get_logged()
+        r = sess.post(
+            self.url + "/index.php",
+            data={
+                'action': 'Advisor',
+                'function': 'doResearch',
+                'type': typ,
+                'currentIslandId': self.island_id,
+                'actionRequest': self.last_token,
+            },
+        )
+        return True

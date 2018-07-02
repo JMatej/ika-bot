@@ -2,11 +2,16 @@ from botapi import BotAPI
 
 url = "https://s35-en.ikariam.gameforge.com"
 world = "s35-en.ikariam.gameforge.com"
-email = "bottest0@centrum.sk"
 pwd = "matejko123"
+users = ["bottest0@centrum.sk"]
 
-bot = BotAPI(url, world, email, pwd)
-print(bot.get_state())
+for email in users:
+    bot = BotAPI(url, world, email, pwd)
+    print(bot.get_state())
+
+
+
+
 # print(bot.research('military'))
 # print(get_state())
 # print(build(city_id=42663, position=12, building=4))
