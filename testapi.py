@@ -7,6 +7,7 @@ pwd = "matejko123"
 
 bot = BotAPI(url, world, email, pwd)
 print(bot.get_state())
+# print(bot.research('military'))
 # print(get_state())
 # print(build(city_id=42663, position=12, building=4))
 # print(set_workers(1))

@@ -212,3 +212,17 @@ class BotAPI:
         )
         return True
 
+    # seafaring, economy, science, military
+    def research(self, typ):
+        sess = self.get_logged()
+        r = sess.post(
+            self.url + "/index.php",
+            data={
+                'action': 'Advisor',
+                'function': 'doResearch',
+                'type': typ,
+                'currentIslandId': self.island_id,
+                'actionRequest': self.last_token,
+            },
+        )
+        return True
