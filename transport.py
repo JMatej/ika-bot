@@ -9,7 +9,10 @@ pwd = "matejko123"
 
 
 class TransportLuxury:
-    def __init__(self):
+    def __init__(self, world, url, pwd):
+        self.world = world
+        self.url = url
+        self.pwd = pwd
         self.lines = [line.rstrip() for line in open('groups.txt')]
         self.groups = self.get_groups()
 
@@ -21,7 +24,7 @@ class TransportLuxury:
             print(idx)
             act_email = line.split(" ")[0]
             act_group_id = int(line.split(" ")[1])
-            bot = BotAPI(url, world, act_email, pwd)
+            bot = BotAPI(self.url, self.world, act_email, self.pwd)
             state = bot.get_state()
             city_id = state['city']['id']
             if idx == 0:
@@ -32,7 +35,7 @@ class TransportLuxury:
         return groups
 
     def transport_from(self, email, group_id):
-        bot = BotAPI(url, world, email, pwd)
+        bot = BotAPI(self.url, self.world, email, self.pwd)
         state = bot.get_state()
         luxury = state['town_hall_info']['luxury']
         for partner in self.groups[group_id]:
@@ -68,5 +71,5 @@ class TransportLuxury:
             print('time: ', end - start)
 
 
-inst = TransportLuxury()
+inst = TransportLuxury(world, url, pwd)
 inst.transport()
