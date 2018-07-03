@@ -17,11 +17,13 @@ class BotAPI:
         self.island_id = 0
         self.last_token = ""
         self.state = {}
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
     def get_logged(self):
         s = requests.Session()
         proxies = {"http": get_proxy()}
         s.proxies.update(proxies)
+        s.headers.update(self.headers)
         r = s.post(
             self.url + "/index.php?action=loginAvatar&function=login",
             data={
