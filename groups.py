@@ -6,7 +6,8 @@ from botapi import BotAPI
 def groups_by_luxury():
     url = "https://s35-en.ikariam.gameforge.com"
     world = "s35-en.ikariam.gameforge.com"
-    with open('emails') as f:
+    pwd = "matejko123"
+    with open('emails.txt') as f:
         content = f.readlines()
     content = [x.strip() for x in content]
 
@@ -45,10 +46,11 @@ def groups_by_luxury():
         if i < len(wine):
             arr_cities.append(wine[i])
 
-    with open('groups34.txt', 'a') as f:
+    with open('groups.txt', 'a') as f:
         for idx, email in enumerate(arr_cities):
             f.write(email + ' ' + str(idx // 4) + '\n')
     print('end')
+
 
 groups_by_luxury()
 

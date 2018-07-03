@@ -37,7 +37,7 @@ def invite_friends(fh, player_id):
     proxies = proxxy.get_proxies()
     emails = create_emails(20)
     proxy_pool = cycle(proxies)
-    for i in range(0, 20):
+    for i in range(0, 10):
         print(emails[i]['email'], emails[i]['name'])
         proxy = next(proxy_pool)
         payload = {
@@ -52,8 +52,10 @@ def invite_friends(fh, player_id):
         }
         try:
             response = requests.post(url, data=payload, proxies={"http": proxy, "https": proxy})
+            with open('emails.txt', 'a') as f:
+                f.write(emails[i]['email'] + '\n')
         except:
             print("Skipping. Connnection error")
 
 
-invite_friends('4f158c4f36d1dfbf022ee3b08ec69d82', '29969')
+invite_friends('a65e7006d322c14428247b672885492c', '16352')
