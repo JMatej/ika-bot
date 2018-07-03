@@ -1,5 +1,6 @@
 from botapi import BotAPI
 
+
 def groups_by_luxury():
     url = "https://s35-en.ikariam.gameforge.com"
     world = "s35-en.ikariam.gameforge.com"
