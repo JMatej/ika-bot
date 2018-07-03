@@ -229,7 +229,7 @@ class BotAPI:
                 'cargo_tradegood2': marble,
                 'cargo_tradegood3': glass,
                 'cargo_tradegood4': sulfur,
-                'islandId': self.island_id,
+                'islandId': destination_island_id,
                 'destinationCityId': destination_city_id,
                 'cityId': self.city_id,
                 'currentIslandId': destination_island_id,
