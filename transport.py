@@ -12,12 +12,12 @@ pwd = "matejko123"
 
 class TransportLuxury:
     def __init__(self, world, url, pwd):
+        self.pickle_filename = 'groups.pickle'
         self.world = world
         self.url = url
         self.pwd = pwd
         self.lines = [line.rstrip() for line in open('groups.txt')]
         self.groups = self.get_groups()
-        self.pickle_filename = 'groups.pickle'
 
     def get_groups(self):
         if os.path.exists(self.pickle_filename):
@@ -46,7 +46,7 @@ class TransportLuxury:
                 print(traceback.format_exc())
             end = time.time()
             print('time: ', end - start)
-        with open('self.pickle_filename', 'wb') as handle:
+        with open(self.pickle_filename, 'wb') as handle:
             pickle.dump(groups, handle, protocol=pickle.HIGHEST_PROTOCOL)
         return groups
 
