@@ -236,6 +236,7 @@ class BotAPI:
                 'actionRequest': self.last_token,
             },
         )
+        print('transport', r.status_code, r.text)
         return True
 
     # seafaring, economy, science, military

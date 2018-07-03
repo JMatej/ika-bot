@@ -69,7 +69,9 @@ class TransportLuxury:
                 elif luxury == 'sulfur':
                     sulfur = state['city']['resources']['sulfur'] // 4
                 # destination_city_id, wood, wine, marble, glass, sulfur
+                print('info', partner['city_id'], 0, wine, marble, glass, sulfur)
                 bot.transport(partner['city_id'], 0, wine, marble, glass, sulfur)
+                break
 
     def transport(self):
         for idx, line in enumerate(self.lines):
