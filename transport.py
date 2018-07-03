@@ -61,13 +61,13 @@ class TransportLuxury:
                 sulfur = 0
                 wine = 0
                 if luxury == 'marble':
-                    marble = state['city']['marble'] // 4
+                    marble = state['city']['resources']['marble'] // 4
                 elif luxury == 'crystal':
-                    glass = state['city']['crystal'] // 4
+                    glass = state['city']['resources']['glass'] // 4
                 elif luxury == 'wine':
-                    wine = state['city']['wine'] // 4
+                    wine = state['city']['resources']['wine'] // 4
                 elif luxury == 'sulfur':
-                    sulfur = state['city']['sulfur'] // 4
+                    sulfur = state['city']['resources']['sulfur'] // 4
                 # destination_city_id, wood, wine, marble, glass, sulfur
                 bot.transport(partner['city_id'], 0, wine, marble, glass, sulfur)
 
