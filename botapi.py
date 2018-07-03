@@ -217,7 +217,7 @@ class BotAPI:
         )
         return True
 
-    def transport(self, destination_city_id, wood, wine, marble, glass, sulfur):
+    def transport(self, destination_city_id, destination_island_id, wood, wine, marble, glass, sulfur):
         sess = self.get_logged()
         r = sess.post(
             self.url + "/index.php",
@@ -232,7 +232,7 @@ class BotAPI:
                 'islandId': self.island_id,
                 'destinationCityId': destination_city_id,
                 'cityId': self.city_id,
-                'currentIslandId': self.island_id,
+                'currentIslandId': destination_island_id,
                 'actionRequest': self.last_token,
             },
         )

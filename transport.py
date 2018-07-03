@@ -27,6 +27,7 @@ class TransportLuxury:
         groups = {}
         master = self.lines[0].split(" ")[0]
         master_city_id = -1
+        master_island_id = -1
         for idx, line in enumerate(self.lines):
             start = time.time()
             print(idx)
@@ -36,11 +37,13 @@ class TransportLuxury:
             try:
                 state = bot.get_state()
                 city_id = state['city']['id']
+                island_id = state['island']['island_id']
                 if idx == 0:
                     master_city_id = city_id
+                    master_island_id = island_id
                 if group_id not in groups:
-                    groups[group_id] = [{'email': master, 'city_id': master_city_id}]
-                groups[group_id].append({'email': email, 'city_id': city_id})
+                    groups[group_id] = [{'email': master, 'city_id': master_city_id, 'island_id': master_island_id}]
+                groups[group_id].append({'email': email, 'city_id': city_id, 'island_id': island_id})
             except Exception as e:
                 print("type error: " + str(e))
                 print(traceback.format_exc())
@@ -68,9 +71,9 @@ class TransportLuxury:
                     wine = state['city']['resources']['wine'] // 4
                 elif luxury == 'sulfur':
                     sulfur = state['city']['resources']['sulfur'] // 4
-                # destination_city_id, wood, wine, marble, glass, sulfur
+                # destination_city_id, destination_island_id, wood, wine, marble, glass, sulfur
                 print('info', partner['email'], partner['city_id'], 0, wine, marble, glass, sulfur)
-                bot.transport(partner['city_id'], 0, wine, marble, glass, sulfur)
+                bot.transport(partner['city_id'], partner['island_id'], 0, wine, marble, glass, sulfur)
                 break
 
     def transport(self):
