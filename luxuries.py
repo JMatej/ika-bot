@@ -1,4 +1,7 @@
+import traceback
+
 from botapi import BotAPI
+
 
 def groups_by_luxury():
     url = "https://s35-en.ikariam.gameforge.com"
@@ -12,10 +15,8 @@ def groups_by_luxury():
     wine = []
     crystal = []
 
-    for i in range(46):
+    for i, email in enumerate(content):
         print(i)
-        email = content[i]
-        pwd = "matejko123"
         bot = BotAPI(url, world, email, pwd)
         try:
             state = bot.get_state()
@@ -28,19 +29,26 @@ def groups_by_luxury():
                 crystal.append(email)
             elif state['town_hall']['luxury'] == 'wine':
                 wine.append(email)
-                print('tento je vino')
-                print(email)
-            print(len(wine), len(crystal), len(marble), len(sulfur))
-        except:
-            print("failed")
+        except Exception as e:
+            print(traceback.format_exc())
 
-    min_len = min(len(marble), len(sulfur), len(wine), len(crystal))
-    for i in range(min_len):
-        with open('groups', 'a') as f:
-            f.write(marble[i] + ' ' + str(i) + '\n')
-            f.write(sulfur[i] + ' ' + str(i) + '\n')
-            f.write(wine[i] + ' ' + str(i) + '\n')
-            f.write(crystal[i] + ' ' + str(i) + '\n')
+    print(len(wine), len(crystal), len(marble), len(sulfur))
+    max_len = max(len(marble), len(sulfur), len(wine), len(crystal))
+    arr_cities = []
+    for i in range(max_len):
+        if i < len(marble):
+            arr_cities.append(marble[i])
+        if i < len(sulfur):
+            arr_cities.append(sulfur[i])
+        if i < len(crystal):
+            arr_cities.append(crystal[i])
+        if i < len(wine):
+            arr_cities.append(wine[i])
+
+    with open('groups34.txt', 'a') as f:
+        for idx, email in enumerate(arr_cities):
+            f.write(email + ' ' + str(idx // 4) + '\n')
+    print('end')
 
 groups_by_luxury()
 
