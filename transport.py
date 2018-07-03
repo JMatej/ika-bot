@@ -21,17 +21,24 @@ class TransportLuxury:
         master = self.lines[0].split(" ")[0]
         master_city_id = -1
         for idx, line in enumerate(self.lines):
+            start = time.time()
             print(idx)
-            act_email = line.split(" ")[0]
-            act_group_id = int(line.split(" ")[1])
-            bot = BotAPI(self.url, self.world, act_email, self.pwd)
-            state = bot.get_state()
-            city_id = state['city']['id']
-            if idx == 0:
-                master_city_id = city_id
-            if act_group_id not in groups:
-                groups[act_group_id] = [{'email': master, 'city_id': master_city_id}]
-            groups[act_group_id].append({'email': act_email, 'city_id': city_id})
+            email = line.split(" ")[0]
+            group_id = int(line.split(" ")[1])
+            bot = BotAPI(self.url, self.world, email, self.pwd)
+            try:
+                state = bot.get_state()
+                city_id = state['city']['id']
+                if idx == 0:
+                    master_city_id = city_id
+                if group_id not in groups:
+                    groups[group_id] = [{'email': master, 'city_id': master_city_id}]
+                groups[group_id].append({'email': email, 'city_id': city_id})
+            except Exception as e:
+                print("type error: " + str(e))
+                print(traceback.format_exc())
+            end = time.time()
+            print('time: ', end - start)
         return groups
 
     def transport_from(self, email, group_id):
