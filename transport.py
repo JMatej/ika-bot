@@ -44,7 +44,7 @@ class TransportLuxury:
     def transport_from(self, email, group_id):
         bot = BotAPI(self.url, self.world, email, self.pwd)
         state = bot.get_state()
-        luxury = state['town_hall_info']['luxury']
+        luxury = state['town_hall']['luxury']
         for partner in self.groups[group_id]:
             if partner['email'] != email:
                 marble = 0
@@ -52,13 +52,13 @@ class TransportLuxury:
                 sulfur = 0
                 wine = 0
                 if luxury == 'marble':
-                    marble = state['city_info']['marble'] // 4
+                    marble = state['city']['marble'] // 4
                 elif luxury == 'crystal':
-                    glass = state['city_info']['crystal'] // 4
+                    glass = state['city']['crystal'] // 4
                 elif luxury == 'wine':
-                    wine = state['city_info']['wine'] // 4
+                    wine = state['city']['wine'] // 4
                 elif luxury == 'sulfur':
-                    sulfur = state['city_info']['sulfur'] // 4
+                    sulfur = state['city']['sulfur'] // 4
                 # destination_city_id, wood, wine, marble, glass, sulfur
                 bot.transport(partner['city_id'], 0, wine, marble, glass, sulfur)
 
