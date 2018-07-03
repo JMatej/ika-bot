@@ -1,3 +1,5 @@
+import os
+import pickle
 import time
 import traceback
 
@@ -15,8 +17,13 @@ class TransportLuxury:
         self.pwd = pwd
         self.lines = [line.rstrip() for line in open('groups.txt')]
         self.groups = self.get_groups()
+        self.pickle_filename = 'groups.pickle'
 
     def get_groups(self):
+        if os.path.exists(self.pickle_filename):
+            with open(self.pickle_filename, 'rb') as handle:
+                groups = pickle.load(handle)
+                return groups
         groups = {}
         master = self.lines[0].split(" ")[0]
         master_city_id = -1
@@ -39,6 +46,8 @@ class TransportLuxury:
                 print(traceback.format_exc())
             end = time.time()
             print('time: ', end - start)
+        with open('self.pickle_filename', 'wb') as handle:
+            pickle.dump(groups, handle, protocol=pickle.HIGHEST_PROTOCOL)
         return groups
 
     def transport_from(self, email, group_id):
