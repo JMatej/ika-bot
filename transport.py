@@ -10,8 +10,8 @@ pwd = "matejko123"
 
 class TransportLuxury:
     def __init__(self):
-        self.groups = self.get_groups()
         self.lines = [line.rstrip() for line in open('groups.txt')]
+        self.groups = self.get_groups()
 
     def get_groups(self):
         groups = {}
