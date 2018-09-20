@@ -4,8 +4,8 @@ Python bot for playing web-based strategy game Ikariam
 
 ### Instructions
 
-Put emails of your accounts to emails.txt
-
+1. Put emails of your accounts to emails.txt
+2. Run group script
 ```python
 python3 groups.py
 ```
